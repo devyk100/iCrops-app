@@ -4,7 +4,7 @@
  *
  * @format
  */
-
+import 'react-native-gesture-handler'
 import React, {Component} from 'react';
 import { StyleSheet } from 'react-native';
 import Animated from 'react-native-reanimated';
