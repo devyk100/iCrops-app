@@ -31,7 +31,7 @@ export default function ({navigation}: {navigation:any}) {
     }
 
     try {
-      const response = await axios.post(BACKEND_URL + 'api/v1/user/signup', {
+      const response = await axios.post(BACKEND_URL + 'api/v1/user/signup/', {
         email: email,
         password: password,
         Designation: designation,
@@ -59,6 +59,8 @@ export default function ({navigation}: {navigation:any}) {
             flex: 1,
             textAlign: 'center',
             marginTop: 20,
+            color: "black",
+            fontWeight: "600"
           }}>
           Sign Up to the iCrops App
         </Text>
@@ -88,6 +90,7 @@ export default function ({navigation}: {navigation:any}) {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
+              color: "black"
             }}
             value={email}
             onChangeText={setEmail}></TextInput>
@@ -119,6 +122,7 @@ export default function ({navigation}: {navigation:any}) {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
+              color: "black"
             }}
             value={password}
             onChangeText={setPassword}></TextInput>
@@ -149,6 +153,7 @@ export default function ({navigation}: {navigation:any}) {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
+              color: "black"
             }}
             value={designation}
             onChangeText={setDesignation}></TextInput>
@@ -179,6 +184,7 @@ export default function ({navigation}: {navigation:any}) {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
+              color: "black"
             }}
             value={institute}
             onChangeText={setInstitute}></TextInput>
@@ -209,6 +215,7 @@ export default function ({navigation}: {navigation:any}) {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
+              color: "black"
             }}
             value={province}
             onChangeText={setProvince}></TextInput>
@@ -239,6 +246,7 @@ export default function ({navigation}: {navigation:any}) {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
+              color: "black"
             }}
             value={country}
             onChangeText={setCountry}></TextInput>

@@ -18,7 +18,7 @@ export default function () {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const submit = useCallback(async () => {
-    const response = await axios.post(BACKEND_URL + 'api/v1/user/login', {
+    const response = await axios.post(BACKEND_URL + 'api/v1/user/login/', {
       email,
       password,
     });
@@ -47,6 +47,8 @@ export default function () {
             style={{
               fontSize: 24,
               padding: 20,
+              color:"black",
+              fontWeight: "600"
             }}>
             Login to iCrops App
           </Text>
@@ -75,6 +77,7 @@ export default function () {
               borderWidth: 1,
               width: '80%',
               borderRadius: 10,
+              color: "black",
               fontSize: 18,
             }}
             value={email}
@@ -105,6 +108,7 @@ export default function () {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
+              color: "black"
             }}
             onChangeText={setPassword}
             value={password}

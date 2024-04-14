@@ -2,18 +2,18 @@ import React from 'react';
 import axios, { AxiosResponse } from 'axios';
 import {Dirs, FileSystem} from 'react-native-file-access';
 import { getBottomIndexCount, getJwt, retrieveAllData, setBottomIndex } from '../localStorage';
-import { Alert } from 'react-native';
+import { Alert, ToastAndroid } from 'react-native';
 // const response = await axios.post(
 //   'http://10.0.2.2:3000/api/v1/sync',
 //   {
 //     fileData: fileData
 //   }
 // );
-export const BACKEND_URL = "http://10.0.2.2:3001/";
+export const BACKEND_URL = "https://icrops-backend.yashk.dev/";
 const sendData = async (data: any) => {
   const jwt = getJwt();
   const response = await axios.post(
-    BACKEND_URL+ 'api/v1/sync',
+    BACKEND_URL+ 'api/v1/sync/',
     {
       ...data,
       noOfImages: data.images.length
@@ -31,7 +31,7 @@ const sendImage = async (fileName: string, dataId: number) => {
   const fileData = await FileSystem.readFile(fileName, 'base64');
   const jwt = getJwt();
   const response = await axios.post(
-    BACKEND_URL + 'api/v1/sync/image',
+    BACKEND_URL + 'api/v1/sync/image/',
     {
       fileData: fileData,
       dataId: dataId
@@ -48,8 +48,11 @@ const sendImage = async (fileName: string, dataId: number) => {
 const sendAnEntry = async (data: any) => {
   try{
     const response:AxiosResponse = await sendData(data);
+    let counter = 1;
     for(let a of data.images){
-      sendImage(a, response.data.dataId);
+      ToastAndroid.showWithGravity(`Uploading image - ${counter}`, ToastAndroid.BOTTOM, ToastAndroid.CENTER)
+      const responseImage = await sendImage(a, response.data.dataId);
+      if(!responseImage.data.success) throw Error("Image upload failed")
     }
     return true;
   }
@@ -62,7 +65,10 @@ const sendAnEntry = async (data: any) => {
 export const upload = async () => {
   // console.log(fileName);
   const dataArray = retrieveAllData()
+  let counter = 1;
   for(let a of dataArray){
+    ToastAndroid.showWithGravity(`Uploading entry - ${counter}`, ToastAndroid.BOTTOM, ToastAndroid.CENTER)
+    counter++;
     let success = await sendAnEntry(a);
     if(success){
       let bottomIndex = getBottomIndexCount();
@@ -76,5 +82,7 @@ export const upload = async () => {
       break;
     }
   }
+  ToastAndroid.showWithGravity(`SYNC COMPLETED`, ToastAndroid.BOTTOM, ToastAndroid.CENTER)
+
   console.log('inside of the networking module');
 };
