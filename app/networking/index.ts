@@ -9,7 +9,7 @@ import { Alert, ToastAndroid } from 'react-native';
 //     fileData: fileData
 //   }
 // );
-export const BACKEND_URL = "https://icrops-backend.yashk.dev/";
+export const BACKEND_URL = "something/";
 const sendData = async (data: any) => {
   const jwt = getJwt();
   const response = await axios.post(
