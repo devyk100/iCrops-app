@@ -85,7 +85,7 @@ export default function ({navigation}: {navigation:any}) {
           <TextInput
             style={{
               backgroundColor: 'white',
-              borderBlockColor: 'grey',
+              // borderBlockColor: 'grey',
               borderWidth: 1,
               width: '80%',
               borderRadius: 10,
@@ -117,7 +117,7 @@ export default function ({navigation}: {navigation:any}) {
             secureTextEntry={true}
             style={{
               backgroundColor: 'white',
-              borderBlockColor: 'grey',
+              // borderBlockColor: 'grey',
               borderWidth: 1,
               width: '80%',
               borderRadius: 10,
@@ -148,7 +148,7 @@ export default function ({navigation}: {navigation:any}) {
           <TextInput
             style={{
               backgroundColor: 'white',
-              borderBlockColor: 'grey',
+              // borderBlockColor: 'grey',
               borderWidth: 1,
               width: '80%',
               borderRadius: 10,
@@ -179,7 +179,7 @@ export default function ({navigation}: {navigation:any}) {
           <TextInput
             style={{
               backgroundColor: 'white',
-              borderBlockColor: 'grey',
+              // borderBlockColor: 'grey',
               borderWidth: 1,
               width: '80%',
               borderRadius: 10,
@@ -210,7 +210,7 @@ export default function ({navigation}: {navigation:any}) {
           <TextInput
             style={{
               backgroundColor: 'white',
-              borderBlockColor: 'grey',
+              // borderBlockColor: 'grey',
               borderWidth: 1,
               width: '80%',
               borderRadius: 10,
@@ -241,7 +241,7 @@ export default function ({navigation}: {navigation:any}) {
           <TextInput
             style={{
               backgroundColor: 'white',
-              borderBlockColor: 'grey',
+              // borderBlockColor: 'grey',
               borderWidth: 1,
               width: '80%',
               borderRadius: 10,

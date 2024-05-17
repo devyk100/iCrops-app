@@ -3,14 +3,15 @@ import axios, { AxiosResponse } from 'axios';
 import {Dirs, FileSystem} from 'react-native-file-access';
 import { getBottomIndexCount, getJwt, retrieveAllData, setBottomIndex } from '../localStorage';
 import { Alert, ToastAndroid } from 'react-native';
-import 'dotenv/config'
+// import 'dotenv/config'
 // const response = await axios.post(
 //   'http://10.0.2.2:3000/api/v1/sync',
 //   {
 //     fileData: fileData
 //   }
 // );
-export const BACKEND_URL = "localhost:8080/";
+// export const BACKEND_URL = "http://localhost:8080/";
+export const BACKEND_URL = "http://10.0.2.2:8080/";
 const sendData = async (data: any) => {
   const jwt = getJwt();
   const response = await axios.post(

@@ -120,7 +120,7 @@ export default function ({
                     flexDirection: "row"
                   }}>
                   <Text
-                    // @ts-ignore
+              
                     style={{color: 'black',flex:6, textAlign:"center", fontSize: 18}}>
                     Add crop
                   </Text>

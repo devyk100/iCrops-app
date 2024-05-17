@@ -13,18 +13,24 @@ import {
 import {BACKEND_URL} from '../networking';
 import {useMMKVString} from 'react-native-mmkv';
 import {setJwtEmail} from '../localStorage';
+// import "dotenv/config"
 
 export default function () {
+  const backendUrl = BACKEND_URL;
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const submit = useCallback(async () => {
-    const response = await axios.post(BACKEND_URL + 'api/v1/user/login/', {
+    // console.log(email, "is the email", password, "is the password here", backendUrl)
+    const response = await axios.post(BACKEND_URL+"api/v1/user/login/", {
       email,
       password,
     });
-    if (response.data.success)
+    console.log(response)
+    if (response.data.success){
+      // console.log("GOT THE RESPONSE", response.data)
       setJwtEmail(response.data.jwt, response.data.email);
-    else {
+    }
+      else {
       Alert.alert('Login failed, check the password and email id');
     }
   }, [email, password]);
@@ -73,7 +79,7 @@ export default function () {
           <TextInput
             style={{
               backgroundColor: 'white',
-              borderBlockColor: 'grey',
+              // borderBlockColor: 'grey',
               borderWidth: 1,
               width: '80%',
               borderRadius: 10,
@@ -103,7 +109,7 @@ export default function () {
           <TextInput
             style={{
               backgroundColor: 'white',
-              borderBlockColor: 'grey',
+              // borderBlockColor: 'grey',
               borderWidth: 1,
               width: '80%',
               borderRadius: 10,
