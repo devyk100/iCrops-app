@@ -85,6 +85,7 @@ export default function () {
               borderRadius: 10,
               color: "black",
               fontSize: 18,
+              paddingLeft: 8
             }}
             value={email}
             onChangeText={setEmail}></TextInput>
@@ -114,7 +115,8 @@ export default function () {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
-              color: "black"
+              color: "black",
+              paddingLeft: 8
             }}
             onChangeText={setPassword}
             value={password}

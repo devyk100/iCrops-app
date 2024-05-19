@@ -12,6 +12,7 @@ import { Alert, ToastAndroid } from 'react-native';
 // );
 // export const BACKEND_URL = "http://localhost:8080/";
 export const BACKEND_URL = "http://10.0.2.2:8080/";
+
 const sendData = async (data: any) => {
   const jwt = getJwt();
   const response = await axios.post(
@@ -26,12 +27,13 @@ const sendData = async (data: any) => {
       }
     }
   );
+  console.log(response.data.success, " IS THE SUCCESS")
   return response;
 }
 
 const sendImage = async (fileName: string, dataId: number) => {
   try{
-
+    console.log(dataId, "IS THE ID")
     const fileData = await FileSystem.readFile(fileName, 'base64');
     const jwt = getJwt();
     const response = await axios.post(
@@ -59,16 +61,39 @@ const sendImage = async (fileName: string, dataId: number) => {
   }
 }
 
+const completeEntry = async (dataId: Number) => {
+  try{
+    const response: AxiosResponse = await axios.post(BACKEND_URL+"api/v1/sync/complete", {
+      dataId: dataId
+    })
+    if(response.data.success){
+      return true;
+    }
+    else{
+      return false
+    }
+  }
+  catch(error){
+    return false
+  }
+}
+
 const sendAnEntry = async (data: any) => {
   try{
     const response:AxiosResponse = await sendData(data);
+    const dataId = response.data.dataId;
+    console.log(dataId, "IS THE ID")
     let counter = 1;
+    // throw Error();
     for(let a of data.images){
       ToastAndroid.showWithGravity(`Uploading image - ${counter}`, ToastAndroid.BOTTOM, ToastAndroid.CENTER)
       const responseImage = await sendImage(a, response.data.dataId);
       if(!responseImage.data.success) throw Error("Image upload failed")
+        counter++;
     }
-    return true;
+    const result = await completeEntry(dataId);
+    if(result) return true;
+    else return false;
   }
   catch(error){
     console.log(error)

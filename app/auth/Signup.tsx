@@ -90,7 +90,8 @@ export default function ({navigation}: {navigation:any}) {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
-              color: "black"
+              color: "black",
+              paddingLeft: 8
             }}
             value={email}
             onChangeText={setEmail}></TextInput>
@@ -122,7 +123,8 @@ export default function ({navigation}: {navigation:any}) {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
-              color: "black"
+              color: "black",
+              paddingLeft: 8
             }}
             value={password}
             onChangeText={setPassword}></TextInput>
@@ -153,7 +155,8 @@ export default function ({navigation}: {navigation:any}) {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
-              color: "black"
+              color: "black",
+              paddingLeft: 8
             }}
             value={designation}
             onChangeText={setDesignation}></TextInput>
@@ -184,7 +187,8 @@ export default function ({navigation}: {navigation:any}) {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
-              color: "black"
+              color: "black",
+              paddingLeft: 8
             }}
             value={institute}
             onChangeText={setInstitute}></TextInput>
@@ -215,7 +219,8 @@ export default function ({navigation}: {navigation:any}) {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
-              color: "black"
+              color: "black",
+              paddingLeft: 8
             }}
             value={province}
             onChangeText={setProvince}></TextInput>
@@ -246,7 +251,8 @@ export default function ({navigation}: {navigation:any}) {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
-              color: "black"
+              color: "black",
+              paddingLeft: 8
             }}
             value={country}
             onChangeText={setCountry}></TextInput>
