@@ -73,7 +73,7 @@ export function hell() {
 export function retrieveAllData(){
     let a = storage.getNumber('bottomIndex')
     let totalCount = storage.getNumber('counter')
-    const dataObject: Object[] = [];
+    const dataObject: any[] = [];
     if(a && totalCount){
       for(; a <= totalCount; a++){
           let dataString = storage.getString(`data.entry-${a}`);

@@ -17,6 +17,7 @@ import compassImage from './app/assets/compass.png';
 import Login from './app/auth/Login';
 import MainAuth from './app/auth/MainAuth';
 import { useMMKVString } from 'react-native-mmkv';
+import MapScreen from './app/maps/MapScreen';
 
 function NotificationsScreen({navigation}: {navigation: any}) {
   return (
@@ -138,6 +139,12 @@ export default function App() {
               title: 'Data Collection',
             }}
             component={DataCollection}
+          />
+          <Drawer.Screen name='mapplotting'
+          options={{
+            title: "Map Plotting"
+          }} 
+          component={MapScreen}
           />
         </Drawer.Navigator>
       </NavigationContainer>

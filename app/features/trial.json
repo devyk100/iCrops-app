@@ -1,0 +1,44 @@
+{
+    "CCE": {
+        "biomassWeight": null,
+        "cultivar": null,
+        "grainWeight": null,
+        "harvestDate": null,
+        "isCaptured": false,
+        "isGoingToBeCaptured": false,
+        "sampleSize": null,
+        "sampleSize1": null,
+        "sampleSize2": null,
+        "sowDate": null
+    },
+    "accuracyCorrection": 5,
+    "bearingToCenter": 0,
+    "capturedFromMaps": false,
+    "cropInformation": {
+        "cropGrowthStage": null,
+        "cropIntensity": null,
+        "croppingPattern": null,
+        "isCaptured": false,
+        "liveStock": null,
+        "primarySeason": {
+            "cropName": null,
+            "seasonName": null
+        },
+        "remarks": null,
+        "secondarySeason": {
+            "cropName": null,
+            "seasonName": null
+        },
+        "waterSource": null
+    },
+    "distanceToCenter": [
+        54
+    ],
+    "images": [
+        "content://media/external/file/1000000086"
+    ],
+    "landCoverType": "Builtup",
+    "latitude": 37.42248396700053,
+    "locationDesc": null,
+    "longitude": -122.08399999999997
+}

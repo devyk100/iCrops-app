@@ -1,6 +1,6 @@
 import React from 'react';
 import axios, { AxiosResponse } from 'axios';
-import {Dirs, FileSystem} from 'react-native-file-access';
+import { Dirs, FileSystem } from 'react-native-file-access';
 import { getBottomIndexCount, getJwt, retrieveAllData, setBottomIndex } from '../localStorage';
 import { Alert, ToastAndroid } from 'react-native';
 // import 'dotenv/config'
@@ -10,18 +10,18 @@ import { Alert, ToastAndroid } from 'react-native';
 //     fileData: fileData
 //   }
 // );
-// export const BACKEND_URL = "http://localhost:8080/";
 export const BACKEND_URL = "http://10.0.2.2:8080/";
+// export const BACKEND_URL = "https://icrops-backend.yashk.dev/";
 
 const sendData = async (data: any) => {
   const jwt = getJwt();
   const response = await axios.post(
-    BACKEND_URL+ 'api/v1/sync/',
+    BACKEND_URL + 'api/v1/sync/',
     {
       ...data,
       noOfImages: data.images.length
     }
-    ,{
+    , {
       headers: {
         Authorization: `Bearer ${jwt}`
       }
@@ -32,7 +32,7 @@ const sendData = async (data: any) => {
 }
 
 const sendImage = async (fileName: string, dataId: number) => {
-  try{
+  try {
     console.log(dataId, "IS THE ID")
     const fileData = await FileSystem.readFile(fileName, 'base64');
     const jwt = getJwt();
@@ -42,7 +42,7 @@ const sendImage = async (fileName: string, dataId: number) => {
         fileData: fileData,
         dataId: dataId
       }
-      ,{
+      , {
         headers: {
           Authorization: `Bearer ${jwt}`
         }
@@ -50,11 +50,11 @@ const sendImage = async (fileName: string, dataId: number) => {
     )
     return response
   }
-  catch(error){
+  catch (error) {
     console.log("an error occured")
-    Alert.alert("And error with "+  error +  " occured");
+    Alert.alert("And error with " + error + " occured");
     return {
-      data:{
+      data: {
         success: false
       }
     } as AxiosResponse<any, any>
@@ -62,40 +62,45 @@ const sendImage = async (fileName: string, dataId: number) => {
 }
 
 const completeEntry = async (dataId: Number) => {
-  try{
-    const response: AxiosResponse = await axios.post(BACKEND_URL+"api/v1/sync/complete", {
+  try {
+    const jwt = getJwt();
+    const response: AxiosResponse = await axios.post(BACKEND_URL + "api/v1/sync/complete", {
       dataId: dataId
+    }, {
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
     })
-    if(response.data.success){
+    if (response.data.success) {
       return true;
     }
-    else{
+    else {
       return false
     }
   }
-  catch(error){
+  catch (error) {
     return false
   }
 }
 
 const sendAnEntry = async (data: any) => {
-  try{
-    const response:AxiosResponse = await sendData(data);
+  try {
+    const response: AxiosResponse = await sendData(data);
     const dataId = response.data.dataId;
     console.log(dataId, "IS THE ID")
     let counter = 1;
     // throw Error();
-    for(let a of data.images){
+    for (let a of data.images) {
       ToastAndroid.showWithGravity(`Uploading image - ${counter}`, ToastAndroid.BOTTOM, ToastAndroid.CENTER)
       const responseImage = await sendImage(a, response.data.dataId);
-      if(!responseImage.data.success) throw Error("Image upload failed")
-        counter++;
+      if (!responseImage.data.success) throw Error("Image upload failed")
+      counter++;
     }
     const result = await completeEntry(dataId);
-    if(result) return true;
+    if (result) return true;
     else return false;
   }
-  catch(error){
+  catch (error) {
     console.log(error)
     return false
   }
@@ -104,18 +109,18 @@ const sendAnEntry = async (data: any) => {
 export const upload = async () => {
   const dataArray = retrieveAllData()
   let counter = 1;
-  for(let a of dataArray){
+  for (let a of dataArray) {
     ToastAndroid.showWithGravity(`Uploading entry - ${counter}`, ToastAndroid.BOTTOM, ToastAndroid.CENTER)
     counter++;
     let success = await sendAnEntry(a);
-    if(success){
+    if (success) {
       let bottomIndex = getBottomIndexCount();
-      if(bottomIndex) setBottomIndex(bottomIndex + 1);
-      else{
+      if (bottomIndex) setBottomIndex(bottomIndex + 1);
+      else {
         console.log("bottom index error")
       }
     }
-    else{
+    else {
       Alert.alert("get a better internet connection, syncing failed")
       break;
     }

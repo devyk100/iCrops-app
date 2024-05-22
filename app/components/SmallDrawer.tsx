@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TouchableOpacity, Text, View, StyleSheet} from 'react-native';
+import {TouchableOpacity, Text, View, StyleSheet, StyleSheetProperties, StyleProp, ViewStyle} from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -11,9 +11,10 @@ type dataItem = {
     title: string;
 }
 
-export default function MyComponent({title, data}: {
+export default function MyComponent({title, data, style}: {
     title: string;
-    data: dataItem[]
+    data: dataItem[];
+    style: StyleProp<ViewStyle>
 }) {
   const [isVisible, setIsVisible] = useState(false);
   const height = useSharedValue(0);
@@ -36,12 +37,7 @@ export default function MyComponent({title, data}: {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={{
-          backgroundColor: '#888484',
-          width: '90%',
-          padding: 10,
-          //   margin:10e
-        }}
+        style={style}
         onPress={toggleVisibility}>
         <Text
         // @ts-ignore
