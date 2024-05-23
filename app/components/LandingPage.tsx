@@ -35,7 +35,7 @@ export default function HomeScreen({ navigation }: {
   const [unsynced, setUnsynced] = useState<any>(0);
   const [synced, setSynced] = useState<Number>(-1);
   const uiData = useSelector(selectUiData)
-
+  const [disabled, setDisabled] = useState<boolean>(false)
   // at first mount
   useEffect(() => {
     const count = storage.getNumber('counter')
@@ -79,7 +79,9 @@ export default function HomeScreen({ navigation }: {
     <ScrollView style={{ flex: 1, flexDirection: "column", marginTop: 10 }}>
       <Button handler={() => navigation.navigate("datacollection")}>COLLECT DATA</Button>
       <Button handler={() => {
-        upload()
+        if(disabled) return;
+        setDisabled(true)
+        upload(() => setDisabled(false))
         // dispatch(setWaterSourceCropTypeLandCover());
       }}>SYNC DATA</Button>
       <SmallDrawer  style={{

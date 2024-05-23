@@ -106,7 +106,7 @@ const sendAnEntry = async (data: any) => {
   }
 }
 
-export const upload = async () => {
+export const upload = async (setDisabled: () => void) => {
   const dataArray = retrieveAllData()
   let counter = 1;
   for (let a of dataArray) {
@@ -126,6 +126,6 @@ export const upload = async () => {
     }
   }
   ToastAndroid.showWithGravity(`SYNC COMPLETED`, ToastAndroid.BOTTOM, ToastAndroid.CENTER)
-
+  setDisabled()
   console.log('inside of the networking module');
 };
