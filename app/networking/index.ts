@@ -10,8 +10,8 @@ import { Alert, ToastAndroid } from 'react-native';
 //     fileData: fileData
 //   }
 // );
-export const BACKEND_URL = "http://10.0.2.2:8080/";
-// export const BACKEND_URL = "https://icrops-backend.yashk.dev/";
+// export const BACKEND_URL = "http://10.0.2.2:8080/";
+export const BACKEND_URL = "https://icrops-backend.yashk.dev/";
 
 const sendData = async (data: any) => {
   const jwt = getJwt();
