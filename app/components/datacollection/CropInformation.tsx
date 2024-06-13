@@ -15,7 +15,7 @@ import {
   setCropRemarks,
   setCroppingPattern,
   setLandCoverType,
-  setLiveStock,
+  // setLiveStock,
   setPrimaryCrop,
   setSecondaryCrop,
   setWaterSource,
@@ -86,30 +86,8 @@ export default function () {
               dispatch(setCropIntensity(payload))
             }></CustomModal>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            //   width:"100%",
-            marginHorizontal: 25,
-            marginTop: 5,
-          }}>
-          <Text
-            style={{
-              color: 'black',
-              flex: 6,
-              // padding:5
-            }}>
-            Live Stock
-          </Text>
 
-          <CustomModal
-            data={livestockData}
-            action={payload => dispatch(setLiveStock(payload))}></CustomModal>
-        </View>
-
-            <SeasonSelection></SeasonSelection>
+        <SeasonSelection></SeasonSelection>
 
         <View
           style={{
@@ -159,6 +137,28 @@ export default function () {
               dispatch(setCropGrowthStage(payload))
             }></CustomModal>
         </View>
+        {/* <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            //   width:"100%",
+            marginHorizontal: 25,
+            marginTop: 5,
+          }}>
+          <Text
+            style={{
+              color: 'black',
+              flex: 6,
+              // padding:5
+            }}>
+            Live Stock
+          </Text>
+
+          <CustomModal
+            data={livestockData}
+            action={payload => dispatch(setLiveStock(payload))}></CustomModal>
+        </View> */}
 
         <View
           style={{
@@ -179,21 +179,23 @@ export default function () {
             }}>
             Remarks and notes:
           </Text>
-          <TextInput multiline={true} numberOfLines={3} style={{
-            backgroundColor:"#eef7eb",
-            width:"100%",
-            padding:10,
-            textAlignVertical:"top",
-            borderWidth:1,
-            color:'black',
-            borderColor:"grey",
-            borderRadius:10,
-            marginTop:5
-          }}
-          onChangeText={(value) => {
-            dispatch(setCropRemarks(value))
-          }}
-          ></TextInput>
+          <TextInput
+            multiline={true}
+            numberOfLines={3}
+            style={{
+              backgroundColor: '#eef7eb',
+              width: '100%',
+              padding: 10,
+              textAlignVertical: 'top',
+              borderWidth: 1,
+              color: 'black',
+              borderColor: 'grey',
+              borderRadius: 10,
+              marginTop: 5,
+            }}
+            onChangeText={value => {
+              dispatch(setCropRemarks(value));
+            }}></TextInput>
         </View>
       </View>
     </>

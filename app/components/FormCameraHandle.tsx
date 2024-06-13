@@ -37,8 +37,8 @@ import {
   selectLocation,
   setLocation,
 } from '../features/LocationSlice';
-import { calculateExactLocation } from '../location/getLocation';
-import { upload } from '../networking';
+import {calculateExactLocation} from '../location/getLocation';
+import {upload} from '../networking';
 
 async function hasAndroidPermission() {
   const getCheckPermissionPromise = () => {
@@ -122,7 +122,7 @@ const imageProcessing = async (
   landType: string,
   completedTask: (newUri: string) => void,
   bearingToCenter: number,
-  distanceToCenter: number
+  distanceToCenter: number,
 ) => {
   // if (!cropName || cropName == '') {
   //   Alert.alert(
@@ -142,11 +142,15 @@ const imageProcessing = async (
   //   finalCropsNamesString += `${a.name}:${a.crop}, `;
   // }
   // finalCropsNamesString = finalCropsNamesString.substring(0, finalCropsNamesString.length - 2);
-  if(distanceToCenter != null && bearingToCenter != null){
-
-    const newLocation = calculateExactLocation(latitude, longitude, distanceToCenter, bearingToCenter);
+  if (distanceToCenter != null && bearingToCenter != null) {
+    const newLocation = calculateExactLocation(
+      latitude,
+      longitude,
+      distanceToCenter,
+      bearingToCenter,
+    );
     latitude = newLocation.latitude;
-    longitude = newLocation.longitude
+    longitude = newLocation.longitude;
   }
 
   const options = {
@@ -206,7 +210,7 @@ export default function () {
   const landCoverType = useSelector(selectLandCoverType);
   const wholeData = useSelector(selectDataCollection);
   const primaryCrop = useSelector(selectPrimaryCrop);
-  const bearingToCenter = useSelector(selectBearingToCenter)
+  const bearingToCenter = useSelector(selectBearingToCenter);
   const distanceToCenter = useSelector(selectDistanceToCenter);
   const secondaryCrop = useSelector(selectSecondaryCrop);
   //retrieve the actual username from here
@@ -270,10 +274,9 @@ export default function () {
             dispatch(addImage(newUri));
           },
           bearingToCenter,
-          distanceToCenter
+          distanceToCenter,
         );
         setIsProcessingImage(true);
-
       } catch (e) {
         console.log('Image saving rejected', e);
       }
@@ -286,12 +289,13 @@ export default function () {
           marginTop: 10,
         }}>
         <ScrollView horizontal={true}>
-          {imageList.map((value: string) => {
+          {imageList.map((value: string, id: number) => {
             if (value == null) return null;
             return (
               <View>
                 <Image
                   source={{uri: value}}
+                  key={id}
                   style={{
                     width: 150,
                     height: 150,

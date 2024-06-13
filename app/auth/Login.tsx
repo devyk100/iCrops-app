@@ -11,7 +11,6 @@ import {
   View,
 } from 'react-native';
 import {BACKEND_URL} from '../networking';
-import {useMMKVString} from 'react-native-mmkv';
 import {setJwtEmail} from '../localStorage';
 // import "dotenv/config"
 
@@ -21,16 +20,17 @@ export default function () {
   const [password, setPassword] = useState<string>('');
   const submit = useCallback(async () => {
     // console.log(email, "is the email", password, "is the password here", backendUrl)
-    const response = await axios.post(BACKEND_URL+"api/v1/user/login/", {
+    // Alert.alert('going inside the BACKEND URL', BACKEND_URL);
+    const response = await axios.post(BACKEND_URL + 'api/v1/user/login/', {
       email,
       password,
     });
-    console.log(response)
-    if (response.data.success){
+    // Alert.alert('going inside the BACKEND URL', response.data);
+    console.log(response);
+    if (response.data.success) {
       // console.log("GOT THE RESPONSE", response.data)
       setJwtEmail(response.data.jwt, response.data.email);
-    }
-      else {
+    } else {
       Alert.alert('Login failed, check the password and email id');
     }
   }, [email, password]);
@@ -53,8 +53,8 @@ export default function () {
             style={{
               fontSize: 24,
               padding: 20,
-              color:"black",
-              fontWeight: "600"
+              color: 'black',
+              fontWeight: '600',
             }}>
             Login to iCrops App
           </Text>
@@ -83,9 +83,9 @@ export default function () {
               borderWidth: 1,
               width: '80%',
               borderRadius: 10,
-              color: "black",
+              color: 'black',
               fontSize: 18,
-              paddingLeft: 8
+              paddingLeft: 8,
             }}
             value={email}
             onChangeText={setEmail}></TextInput>
@@ -115,8 +115,8 @@ export default function () {
               width: '80%',
               borderRadius: 10,
               fontSize: 18,
-              color: "black",
-              paddingLeft: 8
+              color: 'black',
+              paddingLeft: 8,
             }}
             onChangeText={setPassword}
             value={password}
@@ -134,7 +134,7 @@ export default function () {
             style={{
               width: '80%',
             }}>
-            <Button onPress={() => submit()} title="Submit"></Button>
+            <Button onPress={() => submit()} title="Login"></Button>
           </View>
         </View>
       </ScrollView>

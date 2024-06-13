@@ -21,7 +21,7 @@ import {
   resetLocation,
   selectLocation,
 } from '../../features/LocationSlice';
-import { calculateExactLocation } from '../../location/getLocation';
+import {calculateExactLocation} from '../../location/getLocation';
 function CorrectWrongIcon({
   isCorrect,
 }: {
@@ -158,7 +158,7 @@ export default function ({
         dataCollectionData.cropInformation.cropIntensity != null &&
         dataCollectionData.cropInformation.primarySeason.cropName != null &&
         dataCollectionData.cropInformation.secondarySeason.cropName != null &&
-        dataCollectionData.cropInformation.liveStock != null &&
+        // dataCollectionData.cropInformation.liveStock != null &&
         dataCollectionData.cropInformation.croppingPattern != null;
       setCropInformationCaptured(cropLandCondition);
       console.log(cropLandCondition, 'crop');
@@ -167,7 +167,7 @@ export default function ({
     setPhotoCaptured(dataCollectionData.images?.length >= 2);
   }, [dataCollectionData]);
   const saveToLocalStorageHandler = useCallback(() => {
-    console.log(dataCollectionData.longitude, 'ooogitutde')
+    console.log(dataCollectionData.longitude, 'ooogitutde');
     const {latitude, longitude} = calculateExactLocation(
       dataCollectionData.latitude,
       dataCollectionData.longitude,

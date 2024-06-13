@@ -10,8 +10,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useSelector } from 'react-redux';
-import { selectResetter } from '../features/LocationSlice';
+import {useSelector} from 'react-redux';
+import {selectResetter} from '../features/LocationSlice';
 
 type dataType = {
   value: number;
@@ -29,11 +29,12 @@ export default function ({
   const [modalValue, setModalValue] = useState(1);
   const [newCropToBeAdded, setNewCropToBeAdded] = useState(false);
   const [newCropValue, setNewCropValue] = useState<string>('');
+  const [firstTime, setFirstTime] = useState(true);
   const resetterValue = useSelector(selectResetter);
-    useEffect(() => {
-      setModalValue(1)
-      console.log(resetterValue)
-    }, [resetterValue])
+  useEffect(() => {
+    setModalValue(1);
+    console.log(resetterValue);
+  }, [resetterValue]);
   return (
     <>
       <Modal
@@ -74,64 +75,67 @@ export default function ({
               width: '65%',
               margin: 10,
             }}>
-              {newCropToBeAdded ? (
-                <View
+            {newCropToBeAdded ? (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <TextInput
                   style={{
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <TextInput
-                    style={{
-                      padding: 5,
-                      margin: 5,
-                      fontSize: 18,
-                      borderBottomWidth: 1,
-                      borderBottomColor: 'green',
-                      flex: 3,
-                      color: "blue"
-                    }}
-                    value={newCropValue}
-                    onChangeText={setNewCropValue}></TextInput>
-                  <Button
-                    title="done"
-                    color={'grey'}
-                    onPress={() => {
-                      action(newCropValue);
-                      setModalVisible(t => !t);
-                    }}></Button>
-                </View>
-              ) : null}
-  
-              {!newCropToBeAdded ? (
-                <TouchableOpacity
-                  onPress={e => {
-                    setNewCropToBeAdded(true);
+                    padding: 5,
+                    margin: 5,
+                    fontSize: 18,
+                    borderBottomWidth: 1,
+                    borderBottomColor: 'green',
+                    flex: 3,
+                    color: 'blue',
                   }}
+                  value={newCropValue}
+                  onChangeText={setNewCropValue}></TextInput>
+                <Button
+                  title="done"
+                  color={'grey'}
+                  onPress={() => {
+                    action(newCropValue);
+                    setFirstTime(false);
+                    setModalVisible(t => !t);
+                  }}></Button>
+              </View>
+            ) : null}
+
+            {!newCropToBeAdded ? (
+              <TouchableOpacity
+                onPress={e => {
+                  setNewCropToBeAdded(true);
+                }}
+                style={{
+                  backgroundColor: 'lightgreen',
+                  alignItems: 'center',
+                  borderRadius: 25,
+                  padding: 10,
+                  flexDirection: 'row',
+                }}>
+                <Text
                   style={{
-                    // padding: 5,
-                    // margin: 5,
-                    // borderBottomWidth: 1,
-                    // borderBottomColor: 'grey',
-                    backgroundColor: "lightgreen",
-                    alignItems:"center",
-                    borderRadius: 25,
-                    padding: 10,
-                    flexDirection: "row"
+                    color: 'black',
+                    flex: 6,
+                    textAlign: 'center',
+                    fontSize: 18,
                   }}>
-                  <Text
-              
-                    style={{color: 'black',flex:6, textAlign:"center", fontSize: 18}}>
-                    Add crop
-                  </Text>
-                  <Text 
+                  Add crop
+                </Text>
+                <Text
                   //@ts-ignore
                   style={{
-                    fontSize:20,
-                    fontWeight:1000
-                  }}>+</Text>
-                </TouchableOpacity>
-              ) : null}
+                    fontSize: 20,
+                    fontWeight: 1000,
+                  }}>
+                  +
+                </Text>
+              </TouchableOpacity>
+            ) : null}
             {data.map((value: any) => {
               return (
                 <TouchableOpacity
@@ -139,6 +143,7 @@ export default function ({
                     setModalValue(value.value);
                     setModalVisible(t => !t);
                     action(value.title);
+                    setFirstTime(false);
                   }}
                   key={value.title}
                   style={{
@@ -179,14 +184,18 @@ export default function ({
               </TouchableOpacity> */}
       <View
         style={{
-        //   marginHorizontal: 3,
+          //   marginHorizontal: 3,
           flexDirection: 'column',
-        //   alignItems: 'center',
-          flex: 5
+          //   alignItems: 'center',
+          flex: 7,
         }}>
         <Button
           title={
-            newCropValue == '' ? data[modalValue - 1]?.title : newCropValue
+            firstTime
+              ? 'Unselected'
+              : newCropValue == ''
+              ? data[modalValue - 1]?.title
+              : newCropValue
           }
           onPress={() => setModalVisible(t => !t)}
           color={'green'}></Button>

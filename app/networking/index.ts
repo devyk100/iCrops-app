@@ -1,8 +1,11 @@
 import React from 'react';
 import axios, { AxiosResponse } from 'axios';
-import { Dirs, FileSystem } from 'react-native-file-access';
+import { Dirs, FileSystem, } from 'react-native-file-access';
+import * as RNFS from "react-native-fs"
 import { getBottomIndexCount, getJwt, retrieveAllData, setBottomIndex } from '../localStorage';
 import { Alert, ToastAndroid } from 'react-native';
+import axiosRetry from 'axios-retry';
+import { MessageProp } from '../components/LandingPage';
 // import 'dotenv/config'
 // const response = await axios.post(
 //   'http://10.0.2.2:3000/api/v1/sync',
@@ -10,8 +13,31 @@ import { Alert, ToastAndroid } from 'react-native';
 //     fileData: fileData
 //   }
 // );
-// export const BACKEND_URL = "http://10.0.2.2:8080/";
-export const BACKEND_URL = "https://icrops-backend.yashk.dev/";
+// export const BACKEND_URL = "http://10.0.2.2:8090/";
+export const BACKEND_URL = "http://maps.icrisat.org/";
+// export const BACKEND_URL = "http://192.168.0.107:8090/";
+
+axiosRetry(axios, {
+  retries: 3,
+  retryDelay: (...arg) => axiosRetry.exponentialDelay(...arg, 700),
+  retryCondition(error) {
+    switch (error?.response?.status) {
+      //retry only if status is 500 or 501
+      case 500:
+      case 501:
+        return true;
+      default:
+        return false;
+    }
+  },
+  // onRetry: (retryCount, error, requestConfig) => {
+  //   console.log(`retry count: `, retryCount);
+  //   if (retryCount == 2) {
+  //     requestConfig.url = 'https://postman-echo.com/status/200';
+  //   }
+  // },
+});
+
 
 const sendData = async (data: any) => {
   const jwt = getJwt();
@@ -34,7 +60,7 @@ const sendData = async (data: any) => {
 const sendImage = async (fileName: string, dataId: number) => {
   try {
     console.log(dataId, "IS THE ID")
-    const fileData = await FileSystem.readFile(fileName, 'base64');
+    const fileData = await RNFS.readFile(fileName, 'base64');
     const jwt = getJwt();
     const response = await axios.post(
       BACKEND_URL + 'api/v1/sync/image/',
@@ -61,7 +87,7 @@ const sendImage = async (fileName: string, dataId: number) => {
   }
 }
 
-const completeEntry = async (dataId: Number) => {
+const sendCompleteRequest = async (dataId: Number) => {
   try {
     const jwt = getJwt();
     const response: AxiosResponse = await axios.post(BACKEND_URL + "api/v1/sync/complete", {
@@ -83,22 +109,31 @@ const completeEntry = async (dataId: Number) => {
   }
 }
 
-const sendAnEntry = async (data: any) => {
+const sendAnEntry = async (data: any, textSetter: (callBack: (message: MessageProp) => MessageProp) => void) => {
   try {
     const response: AxiosResponse = await sendData(data);
     const dataId = response.data.dataId;
     console.log(dataId, "IS THE ID")
     let counter = 1;
     // throw Error();
+    if (data.landCoverType == "Cropland")
+      if (data.images < 1) {
+        Alert.alert("Duplicate unintegral data found, deleting..")
+        return true;
+      }
     for (let a of data.images) {
-      ToastAndroid.showWithGravity(`Uploading image - ${counter}`, ToastAndroid.BOTTOM, ToastAndroid.CENTER)
+      textSetter((value: MessageProp) => {
+        return {
+          message1: value.message1,
+          message2: `Uploading image - ${counter}`,
+          show: true
+        }
+      })
       const responseImage = await sendImage(a, response.data.dataId);
       if (!responseImage.data.success) throw Error("Image upload failed")
       counter++;
     }
-    const result = await completeEntry(dataId);
-    if (result) return true;
-    else return false;
+    return true;
   }
   catch (error) {
     console.log(error)
@@ -106,16 +141,30 @@ const sendAnEntry = async (data: any) => {
   }
 }
 
-export const upload = async (setDisabled: () => void) => {
+export const upload = async (setDisabled: () => void, textSetter: (message: (message: MessageProp) => MessageProp) => void) => {
   const dataArray = retrieveAllData()
   let counter = 1;
   for (let a of dataArray) {
-    ToastAndroid.showWithGravity(`Uploading entry - ${counter}`, ToastAndroid.BOTTOM, ToastAndroid.CENTER)
+    let images = a.images;
+    textSetter((value: MessageProp) => {
+      return {
+        message1: `Uploading entry - ${counter}`,
+        message2: "",
+        show: true
+      }
+    })
     counter++;
-    let success = await sendAnEntry(a);
+    let success = await sendAnEntry(a, textSetter);
     if (success) {
       let bottomIndex = getBottomIndexCount();
-      if (bottomIndex) setBottomIndex(bottomIndex + 1);
+      if (bottomIndex) {
+        setBottomIndex(bottomIndex + 1);
+        let deletePromise: Promise<void>[] = []
+        console.log(images)
+        // for (let filename of images) {
+        //   await (RNFS.unlink(filename));
+        // }
+      }
       else {
         console.log("bottom index error")
       }
@@ -125,7 +174,21 @@ export const upload = async (setDisabled: () => void) => {
       break;
     }
   }
-  ToastAndroid.showWithGravity(`SYNC COMPLETED`, ToastAndroid.BOTTOM, ToastAndroid.CENTER)
+  textSetter((value) => {
+    return {
+      message1: `SYNC COMPLETED`,
+      message2: "",
+      show: true
+    }
+  })
+  setTimeout(() => {
+    textSetter((value) => {
+      return {
+        ...value,
+        show: false
+      }
+    })
+  }, 2000)
   setDisabled()
   console.log('inside of the networking module');
 };

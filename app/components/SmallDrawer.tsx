@@ -1,5 +1,14 @@
 import React, {useState} from 'react';
-import {TouchableOpacity, Text, View, StyleSheet, StyleSheetProperties, StyleProp, ViewStyle} from 'react-native';
+import {
+  TouchableOpacity,
+  Text,
+  View,
+  StyleSheet,
+  StyleSheetProperties,
+  StyleProp,
+  ViewStyle,
+  ScrollView,
+} from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -7,14 +16,18 @@ import Animated, {
 } from 'react-native-reanimated';
 
 type dataItem = {
-    value: number,
-    title: string;
-}
+  value: number;
+  title: string;
+};
 
-export default function MyComponent({title, data, style}: {
-    title: string;
-    data: dataItem[];
-    style: StyleProp<ViewStyle>
+export default function MyComponent({
+  title,
+  data,
+  style,
+}: {
+  title: string;
+  data: dataItem[];
+  style: StyleProp<ViewStyle>;
 }) {
   const [isVisible, setIsVisible] = useState(false);
   const height = useSharedValue(0);
@@ -36,11 +49,9 @@ export default function MyComponent({title, data, style}: {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={style}
-        onPress={toggleVisibility}>
+      <TouchableOpacity style={style} onPress={toggleVisibility}>
         <Text
-        // @ts-ignore
+          // @ts-ignore
           style={{
             fontWeight: 700,
           }}>
@@ -49,16 +60,17 @@ export default function MyComponent({title, data, style}: {
       </TouchableOpacity>
 
       <Animated.View style={[styles.content, animatedStyle]}>
-        <View>
-          {data.map((value: any) => {
+        <ScrollView>
+          {data.map((value: any, id: number) => {
             return (
               <>
                 <TouchableOpacity
+                  key={id}
                   style={{
                     flexDirection: 'row',
                     margin: 40,
                     marginVertical: 5,
-                    width:"90%"
+                    width: '90%',
                   }}>
                   <Text
                     style={{
@@ -78,7 +90,7 @@ export default function MyComponent({title, data, style}: {
               </>
             );
           })}
-        </View>
+        </ScrollView>
       </Animated.View>
     </View>
   );

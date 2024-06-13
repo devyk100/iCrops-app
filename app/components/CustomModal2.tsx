@@ -9,8 +9,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useSelector } from 'react-redux';
-import { selectResetter } from '../features/LocationSlice';
+import {useSelector} from 'react-redux';
+import {selectResetter} from '../features/LocationSlice';
 
 type dataType = {
   value: number;
@@ -26,11 +26,12 @@ export default function ({
 }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalValue, setModalValue] = useState(1);
+  const [firstTime, setFirstTime] = useState(true);
   const resetterValue = useSelector(selectResetter);
-    useEffect(() => {
-      setModalValue(1)
-      console.log(resetterValue)
-    }, [resetterValue])
+  useEffect(() => {
+    setModalValue(1);
+    console.log(resetterValue);
+  }, [resetterValue]);
   return (
     <>
       <Modal
@@ -78,6 +79,7 @@ export default function ({
                     setModalValue(value.value);
                     setModalVisible(t => !t);
                     action(value.title);
+                    setFirstTime(false);
                   }}
                   key={value.title}
                   style={{
@@ -121,10 +123,10 @@ export default function ({
           // marginHorizontal: 3,
           flexDirection: 'column',
           alignItems: 'center',
-          flex: 5
+          flex: 7,
         }}>
         <Button
-          title={data[modalValue - 1]?.title}
+          title={firstTime ? 'Unselected' : data[modalValue - 1]?.title}
           onPress={() => setModalVisible(t => !t)}></Button>
         <Text
           style={{
