@@ -154,6 +154,7 @@ export const upload = async (setDisabled: () => void, textSetter: (message: (mes
       }
     })
     counter++;
+    console.log(a, 'IS THE DATA')
     let success = await sendAnEntry(a, textSetter);
     if (success) {
       let bottomIndex = getBottomIndexCount();
